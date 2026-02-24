@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { StatsModal } from './components/StatsModal';
 import { Board } from './components/Board';
 import Keyboard from './components/Keyboard';
 import { useKey } from './hooks/useKey';
@@ -20,6 +21,19 @@ function makeValidSet(words: string[]) {
 export default function App() {
   const [mode, setMode] = useState<'daily' | 'free' | 'metal-bands'>('daily');
   const [seed, setSeed] = useState(0);
+
+  const [statsOpen, setStatsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!statsOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setStatsOpen(false);
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [statsOpen]);
 
   const dayId = useMemo(() => {
     if (mode === 'daily') return getDayId();
@@ -98,6 +112,9 @@ export default function App() {
           <button type='button' onClick={onNew}>
             New
           </button>
+          <button type='button' onClick={() => setStatsOpen(true)}>
+            Stats
+          </button>
         </div>
       </header>
 
@@ -122,6 +139,12 @@ export default function App() {
           {state.message}
         </p>
       )}
+
+      <StatsModal
+        open={statsOpen}
+        onClose={() => setStatsOpen(false)}
+        stats={state.stats}
+      />
     </div>
   );
 }
