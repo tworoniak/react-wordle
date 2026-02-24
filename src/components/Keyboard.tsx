@@ -1,14 +1,12 @@
-// src/components/Keyboard.tsx
 import type { KeyStatus } from '../game/keyboard';
 
 const ROWS = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
 
 function keyClass(status?: KeyStatus) {
-  if (!status) return 'key';
-  return `key key--${status}`;
+  return status ? `key key--${status}` : 'key';
 }
 
-export function Keyboard({
+export default function Keyboard({
   onChar,
   onEnter,
   onBackspace,
