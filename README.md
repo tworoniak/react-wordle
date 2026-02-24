@@ -1,6 +1,57 @@
-# React + TypeScript + Vite
+# 🎯 React Wordle
 
-## React Wordle Game
+A modern Wordle-inspired game built with React + TypeScript + Vite + Sass, featuring daily puzzles, free play mode, animations, keyboard support, and persistent statistics.
+
+---
+
+## 🚀 Tech Stack
+
+- ⚛️ React (with Hooks)
+- 🔷 TypeScript
+- ⚡ Vite
+- 🎨 Sass (SCSS architecture with @use / @forward)
+- 💾 LocalStorage (stats persistence)
+
+---
+
+## ✨ Features
+
+### 🎮 Game Modes
+
+- Daily Mode — deterministic puzzle based on the current date
+- Free Mode — unlimited randomly-seeded puzzles
+
+### 🧠 Gameplay
+
+- 5-letter word, 6 attempts
+- Word validation against a valid word list
+- Proper duplicate-letter handling (Wordle rules)
+- On-screen keyboard
+- Physical keyboard support
+
+### 🎨 UI & UX
+
+- Tile flip animation on reveal
+- Shake animation for invalid guesses
+- Dynamic keyboard key coloring
+- Responsive layout
+- Accessible status messages (aria-live)
+
+### 📊 Stats Tracking
+
+- Games played
+- Wins
+- Current streak
+- Max streak
+- Daily puzzle completion lock
+- Persisted via localStorage
+
+### 📤 Sharing
+
+- Emoji result grid (🟩 🟨 ⬛)
+- Copy to clipboard support
+
+---
 
 ## 📂 Project Structure
 
@@ -13,8 +64,10 @@ src/
     Tile.tsx
 
   game/
+    daily.ts
     keyboard.ts
     logic.ts
+    storage.ts
     types.ts
     words.ts
 
