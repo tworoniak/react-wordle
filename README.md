@@ -53,6 +53,18 @@ A modern Wordle-inspired game built with React + TypeScript + Vite + Sass, featu
 
 ---
 
+## 🔮 Future Improvements
+
+- Tile flip 3D transform refinement
+- Dark mode toggle
+- Timer / speed mode
+- Animated modal for stats
+- Hard mode (must use revealed hints)
+- Online leaderboard
+- PWA support
+
+---
+
 ## 📂 Project Structure
 
 ```code
