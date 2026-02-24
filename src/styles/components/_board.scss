@@ -1,0 +1,39 @@
+@use '../abstracts' as *;
+
+.board {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: $gap;
+}
+
+.tile {
+  height: $tile-size;
+  border: 2px solid $border;
+  border-radius: $radius;
+  font-weight: 800;
+  font-size: 20px;
+  text-transform: uppercase;
+  @include center;
+
+  &--correct {
+    background: $correct;
+    color: white;
+    border-color: transparent;
+  }
+  &--present {
+    background: $present;
+    color: white;
+    border-color: transparent;
+  }
+  &--absent {
+    background: $absent;
+    color: white;
+    border-color: transparent;
+  }
+}

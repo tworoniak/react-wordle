@@ -1,0 +1,47 @@
+@use '../abstracts' as *;
+
+.keyboard {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+
+  &__row {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 6px;
+    justify-content: center;
+  }
+}
+
+.key {
+  height: 44px;
+  min-width: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: $key-bg;
+  font-weight: 800;
+  cursor: pointer;
+
+  &--wide {
+    min-width: 64px;
+  }
+
+  &--correct {
+    background: $correct;
+    color: white;
+  }
+  &--present {
+    background: $present;
+    color: white;
+  }
+  &--absent {
+    background: $absent;
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+  }
+}
