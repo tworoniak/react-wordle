@@ -7,11 +7,30 @@
   font-family:
     system-ui,
     -apple-system,
-    Segoe UI,
-    Roboto,
-    Helvetica,
-    Arial,
+    Rubik,
     sans-serif;
+}
+
+.app--metal {
+  background: #0e0e0e;
+  color: #e5e5e5;
+
+  .top {
+    border-bottom: 1px solid #222;
+  }
+
+  .tile--correct {
+    background: #8b0000; // dark red
+  }
+
+  .tile--present {
+    background: #555;
+  }
+
+  .key {
+    background: #222;
+    color: #eee;
+  }
 }
 
 .top {

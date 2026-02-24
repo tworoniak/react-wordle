@@ -4,47 +4,38 @@ import Keyboard from './components/Keyboard';
 import { useKey } from './hooks/useKey';
 import { useWordle } from './hooks/useWordle';
 import { buildKeyStatuses } from './game/keyboard';
-import { VALID_WORDS, WORDS } from './game/words';
 import { getDayId, pickDailyWord } from './game/daily';
+import { pickFromList } from './game/pick';
+import {
+  WORDS,
+  VALID_WORDS,
+  METAL_BAND_WORDS,
+  METAL_VALID_WORDS,
+} from './game/words';
 
-function makeValidSet() {
-  return new Set(VALID_WORDS.map((w) => w.toUpperCase()));
-}
-
-// ✅ pure deterministic PRNG (mulberry32)
-function mulberry32(seed: number) {
-  return function () {
-    let t = (seed += 0x6d2b79f5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-// ✅ pure: derives a stable “free” word from a seed
-function pickFreeWord(seed: number) {
-  const rnd = mulberry32(seed);
-  const idx = Math.floor(rnd() * WORDS.length);
-  return WORDS[idx];
+function makeValidSet(words: string[]) {
+  return new Set(words.map((w) => w.toUpperCase()));
 }
 
 export default function App() {
-  const validSet = useMemo(() => makeValidSet(), []);
-  const [mode, setMode] = useState<'daily' | 'free'>('daily');
-
-  // ✅ only state we need for re-rolls
+  const [mode, setMode] = useState<'daily' | 'free' | 'metal-bands'>('daily');
   const [seed, setSeed] = useState(0);
 
-  // ✅ pure derivation: no Date.now, no effects
   const dayId = useMemo(() => {
-    if (mode === 'daily') return getDayId(); // pure (based on Date, but deterministic for current day)
-    return `free-${seed}`; // pure
+    if (mode === 'daily') return getDayId();
+    return `${mode}-${seed}`; // free-0, metal-0, etc (pure)
   }, [mode, seed]);
 
   const answer = useMemo(() => {
-    if (mode === 'daily') return pickDailyWord(); // deterministic per day
-    return pickFreeWord(seed); // deterministic per seed
+    if (mode === 'daily') return pickDailyWord(); // your normal daily
+    if (mode === 'free') return pickFromList(WORDS, seed); // normal free play
+    return pickFromList(METAL_BAND_WORDS, seed); // 🔥 metal mode
   }, [mode, seed]);
+
+  const validSet = useMemo(() => {
+    if (mode === 'metal-bands') return makeValidSet(METAL_VALID_WORDS);
+    return makeValidSet(VALID_WORDS);
+  }, [mode]);
 
   const { state, type, backspace, submit, reset, activeRowIndex } = useWordle({
     answer,
@@ -57,56 +48,52 @@ export default function App() {
     onEnter: () => submit(validSet),
   });
 
-  // Clear shake/reveal flags (effects that only set internal flags are OK; if your lint hates these too,
-  // we can move them into CSS animationend handlers instead.)
-  // (keep your existing effects here)
-
   const statuses = buildKeyStatuses(state.rows);
   const disabled = state.status !== 'playing';
 
   const onNew = () => {
     if (mode === 'daily') {
-      // daily “new” just reloads today’s puzzle
       const d = getDayId();
       const a = pickDailyWord();
       reset(a, d);
       return;
     }
 
-    // free “new” advances seed
-    setSeed((s) => s + 1);
-
-    // reset using the NEXT seed value, without reading Date/impure calls
     const nextSeed = seed + 1;
-    const nextDayId = `free-${nextSeed}`;
-    const nextAnswer = pickFreeWord(nextSeed);
+    setSeed(nextSeed);
+
+    const nextDayId = `${mode}-${nextSeed}`;
+    const nextAnswer =
+      mode === 'free'
+        ? pickFromList(WORDS, nextSeed)
+        : pickFromList(METAL_BAND_WORDS, nextSeed);
+
     reset(nextAnswer, nextDayId);
   };
 
-  const toggleMode = () => {
-    setMode((m) => (m === 'daily' ? 'free' : 'daily'));
-    // also reset the board to the new mode’s puzzle
-    // (we can do it purely using current seed)
-    const nextMode = mode === 'daily' ? 'free' : 'daily';
-    if (nextMode === 'daily') {
-      const d = getDayId();
-      const a = pickDailyWord();
-      reset(a, d);
+  const cycleMode = () => {
+    const next =
+      mode === 'daily' ? 'free' : mode === 'free' ? 'metal-bands' : 'daily';
+    setMode(next);
+
+    // reset immediately into the new mode
+    if (next === 'daily') {
+      reset(pickDailyWord(), getDayId());
+    } else if (next === 'free') {
+      reset(pickFromList(WORDS, seed), `free-${seed}`);
     } else {
-      const d = `free-${seed}`;
-      const a = pickFreeWord(seed);
-      reset(a, d);
+      reset(pickFromList(METAL_BAND_WORDS, seed), `metal-${seed}`);
     }
   };
 
   return (
-    <div className='app'>
+    <div className={`app ${mode === 'metal-bands' ? 'app--metal' : ''}`}>
       <header className='top'>
         <h1>React Wordle</h1>
 
         <div className='top__actions'>
-          <button type='button' onClick={toggleMode}>
-            Mode: {mode}
+          <button type='button' onClick={cycleMode}>
+            Mode: {mode === 'metal-bands' ? 'metal 🤘' : mode}
           </button>
           <button type='button' onClick={onNew}>
             New
