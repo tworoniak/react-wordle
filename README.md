@@ -20,6 +20,7 @@ A modern Wordle-inspired game built with React + TypeScript + Vite + Sass, featu
 
 - Daily Mode — deterministic puzzle based on the current date
 - Free Mode — unlimited randomly-seeded puzzles
+- 🤘 Metal Mode - Metal band names
 
 ### 🧠 Gameplay
 
