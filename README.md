@@ -74,6 +74,7 @@ src/
     Board.tsx
     Keyboard.tsx
     Row.tsx
+    StatsModal.tsx
     Tile.tsx
 
   game/

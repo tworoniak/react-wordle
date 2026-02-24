@@ -1,0 +1,78 @@
+@use '../abstracts' as *;
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.modal__panel {
+  position: relative;
+  width: min(520px, calc(100vw - 32px));
+  border-radius: 16px;
+  background: white;
+  padding: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.modal__title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.modal__close {
+  border: 0;
+  background: transparent;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.modal__meta {
+  margin: 14px 0 0;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stats-card {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  padding: 12px;
+  text-align: center;
+}
+
+.stats-card__value {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.stats-card__label {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-top: 4px;
+}
