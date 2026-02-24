@@ -76,9 +76,11 @@ src/
     Tile.tsx
 
   game/
+    answers.json
     daily.ts
     keyboard.ts
     logic.ts
+    pick.ts
     storage.ts
     types.ts
     words.ts
