@@ -1,4 +1,4 @@
-import type { KeyStatus } from '../game/keyboard';
+import type { KeyStatus } from '../game/types';
 
 const ROWS = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
 

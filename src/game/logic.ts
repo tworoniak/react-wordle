@@ -5,9 +5,9 @@ export function evaluateGuess(guess: string, answer: string): Mark[] {
   const a = answer.toUpperCase().split('');
 
   const marks: Mark[] = Array(g.length).fill('absent');
-
   const remaining = new Map<string, number>();
 
+  // Pass 1: correct
   for (let i = 0; i < g.length; i++) {
     if (g[i] === a[i]) {
       marks[i] = 'correct';
@@ -16,12 +16,11 @@ export function evaluateGuess(guess: string, answer: string): Mark[] {
     }
   }
 
+  // Pass 2: present
   for (let i = 0; i < g.length; i++) {
     if (marks[i] === 'correct') continue;
-
     const c = g[i];
     const count = remaining.get(c) ?? 0;
-
     if (count > 0) {
       marks[i] = 'present';
       remaining.set(c, count - 1);

@@ -37,3 +37,17 @@
 .message {
   margin-top: 12px;
 }
+
+.top__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.stats {
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  opacity: 0.85;
+}
