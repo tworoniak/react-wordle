@@ -23,7 +23,7 @@ export default function App() {
 
   const dayId = useMemo(() => {
     if (mode === 'daily') return getDayId();
-    return `${mode}-${seed}`; // free-0, metal-0, etc (pure)
+    return `${mode}-${seed}`; // free-0, metal-bands-0, etc (pure)
   }, [mode, seed]);
 
   const answer = useMemo(() => {
@@ -82,7 +82,7 @@ export default function App() {
     } else if (next === 'free') {
       reset(pickFromList(WORDS, seed), `free-${seed}`);
     } else {
-      reset(pickFromList(METAL_BAND_WORDS, seed), `metal-${seed}`);
+      reset(pickFromList(METAL_BAND_WORDS, seed), `metal-bands-${seed}`);
     }
   };
 
