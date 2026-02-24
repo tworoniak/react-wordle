@@ -1,5 +1,4 @@
-// src/game/keyboard.ts
-import type { Mark } from './logic';
+import type { Mark } from './types';
 
 export type KeyStatus = Mark;
 
@@ -9,7 +8,7 @@ const rank: Record<KeyStatus, number> = {
   correct: 2,
 };
 
-export function mergeStatus(prev: KeyStatus | undefined, next: KeyStatus) {
+function mergeStatus(prev: KeyStatus | undefined, next: KeyStatus) {
   if (!prev) return next;
   return rank[next] > rank[prev] ? next : prev;
 }

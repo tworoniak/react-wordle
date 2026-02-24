@@ -1,12 +1,10 @@
-// src/App.tsx
 import { useMemo } from 'react';
 import { Board } from './components/Board';
-import { Keyboard } from './components/Keyboard';
+import Keyboard from './components/Keyboard';
 import { useWordle } from './hooks/useWordle';
 import { useKey } from './hooks/useKey';
 import { buildKeyStatuses } from './game/keyboard';
-
-const WORDS = ['REACT', 'STATE', 'HOOKS', 'VITEZ', 'TYPES'];
+import { WORDS } from './game/words';
 
 function pickWord() {
   return WORDS[Math.floor(Math.random() * WORDS.length)];
@@ -19,8 +17,8 @@ export default function App() {
 
   useKey({
     onChar: type,
-    onBackspace: backspace,
     onEnter: submit,
+    onBackspace: backspace,
   });
 
   const statuses = buildKeyStatuses(state.rows);
@@ -30,7 +28,9 @@ export default function App() {
     <div className='app'>
       <header className='top'>
         <h1>Word Game</h1>
-        <button onClick={() => reset(pickWord())}>New</button>
+        <button onClick={() => reset(pickWord())} type='button'>
+          New
+        </button>
       </header>
 
       <Board
