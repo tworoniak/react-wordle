@@ -1,39 +1,34 @@
-// src/components/Board.tsx
-import type { Mark } from '../game/logic';
-
-function tileClass(mark: Mark | null) {
-  if (!mark) return 'tile';
-  return `tile tile--${mark}`;
-}
+import type { Mark, Row as RowType } from '../game/types';
+import { Row } from './Row';
 
 export function Board({
   rows,
   current,
   activeRowIndex,
+  shakeRowIndex,
+  revealRowIndex,
 }: {
-  rows: { guess: string; marks: Mark[] | null }[];
+  rows: RowType[];
   current: string;
   activeRowIndex: number;
+  shakeRowIndex: number | null;
+  revealRowIndex: number | null;
 }) {
   return (
     <div className='board'>
       {rows.map((row, idx) => {
         const isActive = idx === activeRowIndex;
-        const letters = (isActive ? current : row.guess)
-          .padEnd(5, ' ')
-          .split('');
+        const guess = isActive ? current : row.guess;
+        const marks: Mark[] | null = row.marks;
 
         return (
-          <div className='row' key={idx}>
-            {letters.map((ch, i) => {
-              const mark = row.marks?.[i] ?? null;
-              return (
-                <div className={tileClass(mark)} key={i}>
-                  {ch === ' ' ? '' : ch}
-                </div>
-              );
-            })}
-          </div>
+          <Row
+            key={idx}
+            guess={guess}
+            marks={marks}
+            isShaking={shakeRowIndex === idx}
+            isRevealing={revealRowIndex === idx}
+          />
         );
       })}
     </div>
