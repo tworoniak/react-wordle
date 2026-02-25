@@ -54,6 +54,18 @@ A modern Wordle-inspired game built with React + TypeScript + Vite + Sass, featu
 
 ---
 
+## 🧠 State Management
+
+- The game uses a useReducer-driven architecture via useWordle.
+- Key design decisions:
+- Pure render functions
+- Deterministic daily word selection
+- Seed-based free mode generation
+- Explicit reset flow
+- No impure calls during render
+
+---
+
 ## 🔮 Future Improvements
 
 - Tile flip 3D transform refinement
