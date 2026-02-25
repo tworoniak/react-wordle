@@ -66,6 +66,17 @@ A modern Wordle-inspired game built with React + TypeScript + Vite + Sass, featu
 
 ---
 
+## 🎨 Styling Approach
+
+- The project uses a modular Sass architecture:
+- abstracts/ → variables & mixins
+- base/ → reset & global styles
+- components/ → component-level styles
+- app.scss → composition entry point
+- Sass is compiled automatically via Vite.
+
+---
+
 ## 🔮 Future Improvements
 
 - Tile flip 3D transform refinement
